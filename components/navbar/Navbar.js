@@ -4,8 +4,8 @@ import style from './navbar.module.css'
 const Navbar = () => {
   return (
     <nav className={style.navbar}>
-      <Link href="/">All Blogs</Link>
-      <Link href="/blogs">My Blogs</Link>
+      <Link href="/">Posts</Link>
+      <Link href="/users">Users</Link>
     </nav>
   )
 }
