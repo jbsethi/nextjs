@@ -4,34 +4,23 @@ import AppLayout from '../layouts/AppLayout'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
-  const [loading, setLoading] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    const start = () => {
-      setLoading(true)
-    }
-    const end = () => {
-      setLoading(false)
+    const isNavigated = () => {
+      setIsLoaded(true)
     }
 
-    Router.events.on("routeChangeStart", start)
-    Router.events.on("routeChangeComplete", end)
-    Router.events.on("routeChangeError", end)
+    Router.events.on("routeChangeStart", isNavigated)
     return () => {
-      Router.events.off("routeChangeStart", start)
-      Router.events.off("routeChangeComplete", end)
-      Router.events.off("routeChangeError", end)
+      Router.events.off("routeChangeStart", isNavigated)
     }
   }, [])
 
 
   return (
     <AppLayout>
-      {loading ? (
-        <h1 style={{ textAlign: 'center' }}>Loading...</h1>
-      ) : (
-        <Component {...pageProps} />
-      )}
+        <Component {...pageProps} isLoaded={isLoaded}/>
     </AppLayout>
   )
 }
