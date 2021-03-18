@@ -8,7 +8,7 @@ const Posts = dynamic(
   { loading: () => <p>Loading Posts ...</p> }
 )
 
-export default function Home({ result }) {
+function Home({ result }) {
   const [{ isLoading, data: posts }, refetch] = useFetchRecord('https://jsonplaceholder.typicode.com/posts?userId=1', result.data, result.isLoaded)
   return (
     <div className={style.container}>
@@ -22,17 +22,19 @@ export default function Home({ result }) {
   )
 }
 
-export async function getServerSideProps(context) {
+Home.getInitialProps = async ({ req }) => {
   const responseObj = {
     data: [],
     isLoaded: false
   }
 
-  if ((typeof context.req.headers.referer === 'undefined')) {
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts?userId=1')
+  if (typeof req !== 'undefined') {
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=1`)
     responseObj.data = await res.json()
     responseObj.isLoaded = true
   }
 
-  return { props: { result: responseObj } }
+  return { result: responseObj };
 }
+
+export default Home

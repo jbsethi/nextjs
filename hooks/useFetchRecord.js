@@ -30,7 +30,7 @@ const useFetchRecord = (url, initialData, isLoaded) => {
 
 
   const refetch = () => {
-    loadData()
+    loadData(url)
   }
 
 
